@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-    DragDemo(modifier)
+    PointerInputDrag(modifier)
 }
 
 /** §3 ЛР: простейший Modifier.clickable. */
@@ -122,6 +123,30 @@ fun DragDemo(modifier: Modifier = Modifier) {
                         xOffset += distance
                     }
                 )
+        )
+    }
+}
+
+/**
+ * §6 ЛР: двумерное перетаскивание через pointerInput + detectDragGestures.
+ * Сохраняем оба смещения X и Y, применяем через .offset { IntOffset(x, y) }.
+ */
+@Composable
+fun PointerInputDrag(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
+        var xOffset by remember { mutableStateOf(0f) }
+        var yOffset by remember { mutableStateOf(0f) }
+        Box(
+            Modifier
+                .offset { IntOffset(xOffset.roundToInt(), yOffset.roundToInt()) }
+                .background(Color.Blue)
+                .size(100.dp)
+                .pointerInput(Unit) {
+                    detectDragGestures { _, distance ->
+                        xOffset += distance.x
+                        yOffset += distance.y
+                    }
+                }
         )
     }
 }
