@@ -222,13 +222,20 @@ fun ScrollModifiers(modifier: Modifier = Modifier) {
 @Composable
 fun MultiTouchDemo(modifier: Modifier = Modifier) {
     var scale by remember { mutableStateOf(1f) }
-    val state = rememberTransformableState { scaleChange, _, _ ->
+    // §10 ЛР: добавляем поддержку поворота (двумя пальцами).
+    var angle by remember { mutableStateOf(0f) }
+    val state = rememberTransformableState { scaleChange, _, rotationChange ->
         scale *= scaleChange
+        angle += rotationChange
     }
     Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()) {
         Box(
             Modifier
-                .graphicsLayer(scaleX = scale, scaleY = scale)
+                .graphicsLayer(
+                    scaleX = scale,
+                    scaleY = scale,
+                    rotationZ = angle
+                )
                 .transformable(state = state)
                 .background(Color.Blue)
                 .size(100.dp)
