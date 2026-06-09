@@ -90,7 +90,7 @@ fun ClickDemo(modifier: Modifier = Modifier) {
  */
 @Composable
 fun TapPressDemo(modifier: Modifier = Modifier) {
-    var textState by remember { mutableStateOf("Waiting ....") }
+    var textState by remember { mutableStateOf("Ожидание ...") }
     val tapHandler = { status: String -> textState = status }
 
     Column(
@@ -104,10 +104,10 @@ fun TapPressDemo(modifier: Modifier = Modifier) {
                 .size(100.dp)
                 .pointerInput(Unit) {
                     detectTapGestures(
-                        onPress = { tapHandler("onPress Detected") },
-                        onDoubleTap = { tapHandler("onDoubleTap Detected") },
-                        onLongPress = { tapHandler("onLongPress Detected") },
-                        onTap = { tapHandler("onTap Detected") }
+                        onPress = { tapHandler("Нажатие (onPress)") },
+                        onDoubleTap = { tapHandler("Двойной тап (onDoubleTap)") },
+                        onLongPress = { tapHandler("Долгое нажатие (onLongPress)") },
+                        onTap = { tapHandler("Тап (onTap)") }
                     )
                 }
         )
